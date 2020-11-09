@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Comentarios</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body onload="buscarCancion(), buscarComentarios()" id="main">
+    <div class="container" id="registration-form">
+        <div class="image"></div>
+        <div class="frm">
+            <center><h2 id="nombre">   </h2>
+            <form>
+                
+                <div class="form-group">
+                    <label for="imagen" id="imagen"></label> <!--etiqueta para mostrar la imagen-->
+                </div>
+   
+            </form>
+             <!-- tabla de comentarios-->
+                <div id="div1">
+					<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Usuario</th>
+										<th scope="col">Comentario</th>
+									</tr>
+								</thead>
+								<!-- tbody para los comentarios de los usuarios -->
+								<tbody id="listadoComentarios">
+								
+								</tbody>
+					</table>
+                </div>
+            <br>
+           <button onclick="regresar()" type="button" class="btn btn-success">Regresar</button></center>
+        </div>
+    </div>
+    <script>
+		function buscarCancion(){
+			var cancionBuscar = sessionStorage.getItem('buscarCancion')    <!-- tomar dato del session storage-->
+			var url = "http://localhost:3000/cancion/" + cancionBuscar 			<!-- url con la ruta del id -->
+			var imagenCarga = document.querySelector('#imagen') 				<!-- variable para insertar la imagen en el ID del html indicado -->
+			
+			fetch(url)
+			.then(response => response.json())
+			.catch(error => {
+				console.log(error)
+			})
+			.then(res =>{
+				console.log(res)
+				document.querySelector('#nombre').innerText = res.nombre
+				imagenCarga.innerHTML =  `<img src="${res.imagen}" class="img-thumbnail" height="25%" width="25%">`
+				
+          })
+		}
+		
+		function buscarComentarios(){
+			var cancionBuscar = sessionStorage.getItem('buscarCancion')    <!-- tomar dato del session storage-->
+			var url = "http://localhost:3000/comentario/" + cancionBuscar 			<!-- url con la ruta del id -->
+			var tablaComen = document.querySelector('#listadoComentarios')  //seleccionar el id para cuerpo de la tabla comentarios
+			
+			fetch(url)
+			.then(response => response.json())
+			.catch(error => {
+				console.log(error)
+			})
+			.then(res =>{
+				console.log(res)
+				for (var i in res) {
+							tablaComen.innerHTML += 
+							`<tr>
+								<th>  ${res[i].usuario} </th>
+								<th>  ${res[i].comentario} </th>
+							</tr>`
+						}
+          })
+		}
+				
+		function regresar(){
+			location.href="../inicioSesion/inicioAdmin.html"
+		}
+    </script>
+</body>
+
+</html>

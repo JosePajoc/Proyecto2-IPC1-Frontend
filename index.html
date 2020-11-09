@@ -1,0 +1,100 @@
+<!Doctype html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title> Inicio </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!------ uniendo a la hoja de estilos local---->
+	<link href="index.css" rel="stylesheet">
+</head>
+
+<body onload="limpiarDatos()">
+
+<div class="main">
+    <div class="container">
+<center>
+<!-- Incio login -->
+<div class="middle">
+      <div id="login">
+        <form action="javascript:void(0);" method="get">
+          <fieldset class="clearfix">
+            <p ><span class="fa fa-user"></span><input id="usuario" type="text"  Placeholder="Nombre de usuario"  required></p> 
+            <p><span class="fa fa-lock"></span><input id="contrasenia" type="password"  Placeholder="Password"  required></p> 
+             <div>
+                   <button onclick="inicioSesion()" type="button" class="btn btn-black">Iniciar sesi&oacute;n</button>
+                   <button onclick="registrarse()" type="button" class="btn btn-black">Registrarse</button>
+                   <p><a href="recuperar.html">¿Olvid&oacute; su contraseña?</a></p>
+             </div>
+			
+          </fieldset>
+          
+        </form>
+        
+       <div class="clearfix"></div>
+      </div>
+<!-- end login -->
+<div class="clearfix"></div>
+
+      <div class="logo">Music Station USAC <div class="clearfix"></div>
+      </div>
+
+      </div>
+</center>
+    </div>
+	
+</div>
+
+<!----- jQuery, Popper y Script de Bootstrap CDN ----->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- manejo de JavaScript -->
+    <script>
+		function limpiarDatos(){
+			sessionStorage.clear()     <!-- eliminar datos almacenados en session storage -->			
+		}
+		
+        function inicioSesion(){
+        var usuario = document.querySelector('#usuario').value
+        var password = document.querySelector('#contrasenia').value
+          // Objeto con estructura JSON
+        var objetoUsuario = { 'usuario': usuario}
+        var url = "http://localhost:3000/inicioSesion/" + usuario + "/" + password
+		
+        fetch(url)
+        .then(res => res.json())   //variable respuesta guardará lo que recibe como respuesta en formato JSON si sale bien la API
+        .catch(err => {
+					alert("No se pudo conectar con el servidor")   //este error es si el frontend no funciona al enviar datos
+		})
+        .then(response =>{ console.log(response);
+			console.log(response.mensaje)
+			if(response.mensaje == "fallo"){
+				alert("Datos incorrectos: " + response.Descripcion)  //concatenando mensaje del JSON de la API
+			}else{
+				alert(response.Descripcion + `, bienvenido ${usuario}`)  //mensaje de entrada
+				sessionStorage.setItem("usuario",usuario)  //Guardar en memoria el usuario
+				if(response.tipo=="admin"){
+					location.href="inicioSesion/inicioAdmin.html"
+				}else{
+					location.href="inicioSesion/inicioEstandar.html"
+				}	
+			}
+          })
+        }
+
+        function registrarse(){
+            location.href="registro.html"
+        }
+    </script>
+	<!-- footer -->
+	<footer>
+					<!-- copy right -->
+					<center>
+					<p class="copy-right"><h3>&copy; copyright 2020, All rights are reserved. Comentarios y sugerencias cont&aacute;ctenos al correo: pruebas.inicio@gmail.com</h3></p>		
+					<p>Sitio elaborado como proyecto final</p>
+					</center>
+	 </footer>
+			<!-- footer end -->
+</body>
+</html>

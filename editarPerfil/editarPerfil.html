@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Editar perfil</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body onload="buscarUsuario()" id="main">
+    <div class="container" id="registration-form">
+        <div class="image"></div>
+        <div class="frm">
+            <h1>Editar perfil</h1>
+            <form>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre">
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" placeholder="Enter apellido">
+                </div>
+                <div class="form-group">
+                    <label for="usuario">Nombre de usuario:</label>
+                    <input type="text" class="form-control" id="nombreUsuario" placeholder="Enter nombre usuario">
+                </div>
+                <div class="form-group">
+                    <label for="contra">contraseña:</label>
+                    <input type="text" class="form-control" id="contra" placeholder="Enter contraseña">
+                </div>
+               <!-- botones de control -->
+                <div class="form-group">    
+                    <button onclick="modificar()" type="button" class="btn btn-primary">Modificar</button>
+					<button onclick="eliminar()" type="button" class="btn btn-danger">Eliminar</button>
+					<button onclick="regresar()" type="button" class="btn btn-success">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+		function buscarUsuario(){
+			var usuarioBuscar = sessionStorage.getItem('buscarUsuario')
+			var url = "http://localhost:3000/usuario/" + usuarioBuscar
+			fetch(url)
+			.then(response => response.json())
+			.catch(error => {
+				console.log("No se pudo conectar con el servidor")
+			})
+			.then(res =>{
+				document.querySelector('#nombre').value = res.nombre
+				document.querySelector('#apellido').value = res.apellido
+				document.querySelector('#nombreUsuario').value = res.usuario
+				document.querySelector('#contra').value = res.password
+          })
+		}
+		
+		function modificar(){
+        var nombre = document.querySelector('#nombre').value
+        var apellido = document.querySelector('#apellido').value
+        var nomUsuario = document.querySelector('#nombreUsuario').value
+        var password = document.querySelector('#contra').value
+        
+        //Variable para armar la estructura JSON
+        var objeto = {'nombreNew':nombre, 'apellidoNew':apellido, 'nomUsuarioNew': nomUsuario, 'contraNew':password}
+        
+        var url = "http://localhost:3000/usuario/" + sessionStorage.getItem("buscarUsuario")
+        fetch(url, {
+			method: 'PUT',
+			body: JSON.stringify(objeto), // Siempre convertir en JSON nuestro objeto
+			headers:{
+				'Content-Type': 'application/json'
+			} 
+        })
+        .then(res => res.json())
+        .catch(error => {
+            console.error('Error:', error)
+            alert("Ocurrio un error, revisar la consola")
+        })
+        .then(response =>{ console.log('Success:', response);
+            if(response.mensaje == "fallo"){
+				alert("Error: " + response.Descripcion)  //concatenando mensaje del JSON de la API
+			}else{
+				alert("Información: " + response.Descripcion)
+				location.href="../inicioSesion/inicioAdmin.html"
+			}
+            
+		  }) 
+		}
+
+		function eliminar(){       
+			var usuario = document.querySelector('#nombreUsuario').value
+			var url = "http://localhost:3000/usuario/" + usuario
+			fetch(url, {
+			method: 'DELETE',
+			//Volvemos a los 3 fetch, then, catch, then
+			}).then(res => res.json())
+			.catch(error => {
+				console.error('Error:', error)
+				alert("Ocurrio un error al conectar con el servidor, revise la consola")
+			})
+			.then(response =>{
+				console.log('mensaje:', response.mensaje);
+				alert("Mensaje: " + response.Descripcion)
+				if (response.mensaje=="exito"){
+					location.href="../inicioSesion/inicioAdmin.html"
+				}
+			}) 
+		}
+
+		function regresar(){
+			location.href="../inicioSesion/inicioAdmin.html"
+		}
+    </script>
+</body>
+
+</html>

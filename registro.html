@@ -1,0 +1,101 @@
+<!Doctype html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title> Registro </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!------ uniendo a la hoja de estilos local---->
+	<link href="index.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="container">
+<center>
+<div class="middle">
+      <div id="login">
+
+        <form action="javascript:void(0);" method="get">
+
+          <fieldset class="clearfix">
+
+            <p ><span class="fa fa-user"></span><input id="nombre" type="text"  Placeholder="Nombre" required></p> 
+            <p ><span class="fa fa-user"></span><input id="apellido" type="text"  Placeholder="Apellido" required></p> 
+            <p ><span class="fa fa-user"></span><input id="nomUsuario" type="text"  Placeholder="Nombre de usuario" required></p> 
+            <p><span class="fa fa-lock"></span><input id="contrasenia" type="password"  Placeholder="Password" required></p> 
+			<p><span class="fa fa-lock"></span><input id="confirmarContra" type="password"  Placeholder="Confirmar Password" required></p> 
+             <div>
+                   <button onclick="crearUsuario()" type="button" class="btn btn-black">Aceptar</button>
+                   <button onclick="volverInicio()" type="button" class="btn btn-black">Volver</button>
+             </div>
+
+          </fieldset>
+        </form>
+       <div class="clearfix"></div>
+      </div> <!-- end login -->
+<div class="clearfix"></div>
+      <div class="logo">Crear usuario <div class="clearfix"></div>
+      </div>
+
+      </div>
+</center>
+    </div>
+
+</div>
+
+<!----- jQuery, Popper y Script de Bootstrap CDN ----->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- manejo de JavaScript -->
+    <script>
+        function crearUsuario(){
+		var nombre = document.querySelector('#nombre').value
+		var apellido = document.querySelector('#apellido').value
+        var nomUsuario = document.querySelector('#nomUsuario').value
+        var password = document.querySelector('#contrasenia').value
+        var confirmarContra = document.querySelector('#confirmarContra').value
+        var tipo = "estandar"
+        
+        if(password==confirmarContra){
+			// Objeto con estructura JSON
+			var objetoUsuario = { 'nombre': nombre, 'apellido': apellido, 'nomUsuario': nomUsuario, 'contra': password, 'tipo': tipo}
+			var url = "http://localhost:3000/usuario"
+			
+			fetch(url, {
+				method: 'POST', 
+				body: JSON.stringify(objetoUsuario), // Convertimos nuestros datos en un JSON legible para la API
+				headers:{
+					'Content-Type': 'application/json'   // Los headers le indica con que tipo de aplicacion trabaja la API
+				}
+			})
+			.then(res => res.json())   //variable respuesta guardará lo que recibe como respuesta en formato JSON si sale bien la API
+			.catch(err => {
+				console.error('Error:', err)
+				alert("No se pudo conectar con el servidor")
+			})
+			.then(response =>{ console.log(response);
+				console.log(response.mensaje)
+				if(response.mensaje == "fallo"){
+					alert("Error: " + response.Descripcion)  //concatenando mensaje del JSON de la API
+				}else{
+					alert(response.Descripcion + ", ya puedes inicar sesión")  //mensaje de entrada
+					location.href="index.html"
+				}
+			})
+        }else{
+			alert("Las contraseñas no coinciden")
+		}
+        
+        }  //Fin de la función crearUsuario
+		
+        function volverInicio(){
+            location.href="index.html"
+        }
+    </script>
+
+</body>
+</html>

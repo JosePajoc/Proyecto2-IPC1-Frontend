@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Detalles de la canci&oacute;n</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body onload="buscarCancion()" id="main">
+    <div class="container" id="registration-form">
+        <div class="image"></div>
+        <div class="frm">
+            <h3>Datos de la canci&oacute;n</h3>
+            <form>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label for="artista">Artista:</label>
+                    <input type="text" class="form-control" id="artista" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label for="album">Album:</label>
+                    <input type="text" class="form-control" id="album" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="text" class="form-control" id="fecha"  readonly="readonly">
+                </div>
+                <div class="form-group" id ="imagen">
+                    
+                    						
+                </div>
+                <div class="form-group" id="spotify">
+                    
+                   
+                </div>
+                <div class="form-group" id="youtube">
+                    
+                    
+                </div>
+               <!-- botones de control -->
+                <div class="form-group">    
+                    <button onclick="modificar()" type="button" class="btn btn-primary">Modificar</button>
+					<button onclick="eliminar()" type="button" class="btn btn-danger">Eliminar</button>
+					<button onclick="regresar()" type="button" class="btn btn-success">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+		function buscarCancion(){
+			var cancionBuscar = sessionStorage.getItem('buscarCancion')
+			var url = "http://localhost:3000/cancion/" + cancionBuscar
+			fetch(url)
+			.then(response => response.json())
+			.catch(error => {
+				console.log(error)
+			})
+			.then(res =>{
+				
+				//asignando valores a cada elemento con el id correspondiente
+				document.querySelector('#nombre').value = res.nombre
+				document.querySelector('#artista').value = res.artista
+				document.querySelector('#album').value = res.album
+				document.querySelector('#fecha').value = res.fecha
+				var imagenCanciones = document.querySelector('#imagen') 
+				imagenCanciones.innerHTML = `<label for="imagen" >imagen:</label>
+																	<img src="${res.imagen}" class="img-thumbnail" height="30%" width="30%">`
+				var spotifyCanciones = document.querySelector('#spotify') 
+				spotifyCanciones.innerHTML = `<label for="spotify">Spotify:</label>
+																	<iframe src="${res.linkSpotify}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>	`
+				var youtubeCanciones = document.querySelector('#youtube') 
+				youtubeCanciones.innerHTML = `<label for="youtube">Video Youtube:</label>
+																	<iframe width="410" height="200" src="${res.linkYoutube}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>	`
+																	
+          })
+		}
+		function modificar(){
+			var nombre = document.querySelector('#nombre').value
+			var artista = document.querySelector('#artista').value
+			var album = document.querySelector('#album').value
+			var fecha = document.querySelector('#fecha').value
+			var linkImagen = document.querySelector('#linkImagen').value
+			var linkSpotify = document.querySelector('#linkSpotify').value
+			var linkYoutube = document.querySelector('#linkYoutube').value
+        
+			//Variable para armar la estructura JSON
+			var objeto = {'nombreNew':nombre, 'artistaNew':artista, 'albumNew': album, 'fechaNew': fecha, 'imagenNew': linkImagen
+									, 'linkSpotifyNew': linkSpotify, 'linkYoutubeNew': linkYoutube}
+            //Ver en consola el objeto con estrucutra JSON
+            console.log(objeto)
+			var url = "http://localhost:3000/cancion/" + sessionStorage.getItem("buscarCancion")
+			fetch(url, {
+				method: 'PUT',
+				body: JSON.stringify(objeto),        // Covirtiendo en JSON al objeto
+				headers:{
+					'Content-Type': 'application/json'
+				} 
+			})
+			.then(res => res.json())
+			.catch(error => {
+					console.error('Error:', error)
+					alert("Ocurrio un error, revisar la consola")
+			})
+			.then(response =>{ console.log('Success:', response);
+				if(response.mensaje == "fallo"){
+					alert("Error: " + response.Descripcion)  //concatenando mensaje del JSON de la API
+				}else{
+					alert("Información: " + response.Descripcion)
+					location.href="../inicioSesion/inicioAdmin.html"
+				}       
+			}) 
+		}
+
+		function eliminar(){       
+			var url = "http://localhost:3000/cancion/" + sessionStorage.getItem("buscarCancion")
+			fetch(url, {
+				method: 'DELETE',
+			}).then(res => res.json())
+			.catch(error => {
+				console.error('Error:', error)
+				alert("Ocurrio un error al conectar con el servidor, revise la consola")
+			})
+			.then(response =>{
+				console.log('mensaje:', response.mensaje);
+				alert("Mensaje: " + response.Descripcion)
+				if (response.mensaje=="exito"){
+					location.href="../inicioSesion/inicioAdmin.html"
+				}
+			}) 
+		}
+		
+		function regresar(){
+			location.href="../inicioSesion/inicioEstandar.html"
+		}
+    </script>
+</body>
+
+</html>
