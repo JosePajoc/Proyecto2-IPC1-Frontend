@@ -180,7 +180,7 @@
 			<script>
 				function cargarCanciones(){
 						var listaCanciones = document.querySelector('#listaCanciones') 
-						fetch('http://localhost:3000/canciones')	
+						fetch('https://proyecto2-201115455.herokuapp.com/canciones')	
 						.then(response => response.json())
 						.catch(error =>{ 
 							console.log("No se cargo las canciones")
@@ -214,7 +214,7 @@
 					var idCancion = boton.value
 					var usuarioPlaylist = sessionStorage.getItem('usuario')
 					
-					var url = "http://localhost:3000/playList/" + usuarioPlaylist  + "/" + idCancion
+					var url = "https://proyecto2-201115455.herokuapp.com/playList/" + usuarioPlaylist  + "/" + idCancion
 					var objetoLista = {'usuario': usuarioPlaylist, 'idCancion': idCancion}
 							fetch(url, {
 									method: 'POST', 
@@ -244,7 +244,7 @@
 				
 				function obtenerPlaylist(){
 						var usuarioBuscar = sessionStorage.getItem('usuario')
-						var url = "http://localhost:3000/playList/" + usuarioBuscar
+						var url = "https://proyecto2-201115455.herokuapp.com/playList/" + usuarioBuscar
 						fetch(url)	
 						.then(response => response.json())
 						.catch(error =>{ 
@@ -265,7 +265,7 @@
 						var playListCanciones = document.querySelector('#miPlaylist') 
 						miPlaylist.innerHTML = " "            <!-- limpiando la tabla para no tener duplicidad-->
 						for(var x in playListUsuario){
-								var url = "http://localhost:3000/cancion/" + playListUsuario[x]
+								var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + playListUsuario[x]
 								fetch(url)	
 								.then(response => response.json())
 								.catch(error =>{ 
@@ -353,7 +353,7 @@
 							var objetoSolicitud = { 'nombre': nombreSolicitud, 'artista': artistaSolicitud, 'album': albumSolicitud, 
 																'fecha': fechaSolicitud, 'imagen': imagenSolicitud , 'linkSpotify': spotifySolicitud 
 																, 'linkYoutube': youtubeSolicitud}
-							var url = "http://localhost:3000/solicitarCancion"
+							var url = "https://proyecto2-201115455.herokuapp.com/solicitarCancion"
 							fetch(url, {
 									method: 'POST', 
 									body: JSON.stringify(objetoSolicitud), // Convertimos nuestros datos en un JSON legible para la API
@@ -453,7 +453,7 @@
 			<script>
 					function buscarUsuario(){
 						var usuarioBuscar = sessionStorage.getItem('usuario')
-						var url = "http://localhost:3000/usuario/" + usuarioBuscar
+						var url = "https://proyecto2-201115455.herokuapp.com/usuario/" + usuarioBuscar
 						fetch(url)
 						.then(response => response.json())
 						.catch(error => {
@@ -482,7 +482,7 @@
 							if(password==confirmarContra){
 								// Objeto con estructura JSON
 								var objetoUsuario = { 'nombreNew': nombre, 'apellidoNew': apellido, 'nomUsuarioNew': nomUsuario, 'contraNew': password}
-								var url = "http://localhost:3000/usuario/" + nomUsuarioOriginal
+								var url = "https://proyecto2-201115455.herokuapp.com/usuario/" + nomUsuarioOriginal
 								console.log(objetoUsuario) // ver objeto JSON en la consola del navegador
 								fetch(url, {
 										method: 'PUT',
@@ -515,7 +515,7 @@
 						
 						// Objeto con estructura JSON
 						var objetoUsuario = { 'nombreNew': nuevoNombre}
-								var url = "http://localhost:3000/playList/" + nombreOriginal
+								var url = "https://proyecto2-201115455.herokuapp.com/playList/" + nombreOriginal
 								fetch(url, {
 										method: 'PUT',
 										body: JSON.stringify(objetoUsuario), // Siempre convertir en JSON nuestro objeto

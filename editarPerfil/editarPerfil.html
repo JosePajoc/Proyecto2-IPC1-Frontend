@@ -44,7 +44,7 @@
     <script>
 		function buscarUsuario(){
 			var usuarioBuscar = sessionStorage.getItem('buscarUsuario')
-			var url = "http://localhost:3000/usuario/" + usuarioBuscar
+			var url = "https://proyecto2-201115455.herokuapp.com/usuario/" + usuarioBuscar
 			fetch(url)
 			.then(response => response.json())
 			.catch(error => {
@@ -67,7 +67,7 @@
         //Variable para armar la estructura JSON
         var objeto = {'nombreNew':nombre, 'apellidoNew':apellido, 'nomUsuarioNew': nomUsuario, 'contraNew':password}
         
-        var url = "http://localhost:3000/usuario/" + sessionStorage.getItem("buscarUsuario")
+        var url = "https://proyecto2-201115455.herokuapp.com/usuario/" + sessionStorage.getItem("buscarUsuario")
         fetch(url, {
 			method: 'PUT',
 			body: JSON.stringify(objeto), // Siempre convertir en JSON nuestro objeto
@@ -93,7 +93,7 @@
 
 		function eliminar(){       
 			var usuario = document.querySelector('#nombreUsuario').value
-			var url = "http://localhost:3000/usuario/" + usuario
+			var url = "https://proyecto2-201115455.herokuapp.com/usuario/" + usuario
 			fetch(url, {
 			method: 'DELETE',
 			//Volvemos a los 3 fetch, then, catch, then

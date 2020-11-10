@@ -56,7 +56,7 @@
     <script>
 		function buscarCancion(){
 			var cancionBuscar = sessionStorage.getItem('buscarCancion')
-			var url = "http://localhost:3000/cancion/" + cancionBuscar
+			var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + cancionBuscar
 			fetch(url)
 			.then(response => response.json())
 			.catch(error => {
@@ -88,7 +88,7 @@
 									, 'linkSpotifyNew': linkSpotify, 'linkYoutubeNew': linkYoutube}
             //Ver en consola el objeto con estrucutra JSON
             console.log(objeto)
-			var url = "http://localhost:3000/cancion/" + sessionStorage.getItem("buscarCancion")
+			var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + sessionStorage.getItem("buscarCancion")
 			fetch(url, {
 				method: 'PUT',
 				body: JSON.stringify(objeto),        // Covirtiendo en JSON al objeto
@@ -112,7 +112,7 @@
 		}
 
 		function eliminar(){       
-			var url = "http://localhost:3000/cancion/" + sessionStorage.getItem("buscarCancion")
+			var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + sessionStorage.getItem("buscarCancion")
 			fetch(url, {
 				method: 'DELETE',
 			}).then(res => res.json())

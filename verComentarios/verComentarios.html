@@ -43,7 +43,7 @@
     <script>
 		function buscarCancion(){
 			var cancionBuscar = sessionStorage.getItem('buscarCancion')    <!-- tomar dato del session storage-->
-			var url = "http://localhost:3000/cancion/" + cancionBuscar 			<!-- url con la ruta del id -->
+			var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + cancionBuscar 			<!-- url con la ruta del id -->
 			var imagenCarga = document.querySelector('#imagen') 				<!-- variable para insertar la imagen en el ID del html indicado -->
 			
 			fetch(url)
@@ -61,7 +61,7 @@
 		
 		function buscarComentarios(){
 			var cancionBuscar = sessionStorage.getItem('buscarCancion')    <!-- tomar dato del session storage-->
-			var url = "http://localhost:3000/comentario/" + cancionBuscar 			<!-- url con la ruta del id -->
+			var url = "https://proyecto2-201115455.herokuapp.com/comentario/" + cancionBuscar 			<!-- url con la ruta del id -->
 			var tablaComen = document.querySelector('#listadoComentarios')  //seleccionar el id para cuerpo de la tabla comentarios
 			
 			fetch(url)

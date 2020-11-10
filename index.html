@@ -60,7 +60,7 @@
         var password = document.querySelector('#contrasenia').value
           // Objeto con estructura JSON
         var objetoUsuario = { 'usuario': usuario}
-        var url = "http://localhost:3000/inicioSesion/" + usuario + "/" + password
+        var url = "https://proyecto2-201115455.herokuapp.com/inicioSesion/" + usuario + "/" + password
 		
         fetch(url)
         .then(res => res.json())   //variable respuesta guardará lo que recibe como respuesta en formato JSON si sale bien la API

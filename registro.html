@@ -63,7 +63,7 @@
         if(password==confirmarContra){
 			// Objeto con estructura JSON
 			var objetoUsuario = { 'nombre': nombre, 'apellido': apellido, 'nomUsuario': nomUsuario, 'contra': password, 'tipo': tipo}
-			var url = "http://localhost:3000/usuario"
+			var url = "https://proyecto2-201115455.herokuapp.com/usuario"
 			
 			fetch(url, {
 				method: 'POST', 

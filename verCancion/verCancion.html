@@ -79,7 +79,7 @@
     <script>
 		function buscarCancion(){
 			var cancionBuscar = sessionStorage.getItem('buscarCancion')
-			var url = "http://localhost:3000/cancion/" + cancionBuscar
+			var url = "https://proyecto2-201115455.herokuapp.com/cancion/" + cancionBuscar
 			fetch(url)
 			.then(response => response.json())
 			.catch(error => {
@@ -106,7 +106,7 @@
 		
 		function buscarComentarios(){
 			var cancionBuscar = sessionStorage.getItem('buscarCancion')    <!-- tomar dato del session storage-->
-			var url = "http://localhost:3000/comentario/" + cancionBuscar 			<!-- url con la ruta del id -->
+			var url = "https://proyecto2-201115455.herokuapp.com/comentario/" + cancionBuscar 			<!-- url con la ruta del id -->
 			var tablaComen = document.querySelector('#listadoComentarios')  //seleccionar el id para cuerpo de la tabla comentarios
 			
 			fetch(url)
@@ -134,7 +134,7 @@
         
 			// Objeto con estructura JSON
 			var objetoComentario = { 'idCancion': idCancion, 'usuario': usuario, 'comentario': comentario}
-			var url = "http://localhost:3000/comentario"
+			var url = "https://proyecto2-201115455.herokuapp.com/comentario"
 			
 			fetch(url, {
 				method: 'POST', 

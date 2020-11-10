@@ -185,7 +185,7 @@
 			<script>
 				function cargarDatos(){									//Ver usuarios registrados en el sistema
 					var tablaUsu = document.querySelector('#listadoUsuarios')  //seleccionar el id para cuerpo de la tabla usuarios
-					fetch('http://localhost:3000/usuariosRegistrados')
+					fetch('https://proyecto2-201115455.herokuapp.com/usuariosRegistrados')
 					.then(response => response.json())
 					.catch(error => {
 						console.log(error)
@@ -206,7 +206,7 @@
 				
 				function cargarCanciones(){
 						var listaCanciones = document.querySelector('#listaCanciones') 
-						fetch('http://localhost:3000/canciones')	
+						fetch('https://proyecto2-201115455.herokuapp.com/canciones')	
 						.then(response => response.json())
 						.catch(error =>{ 
 							console.log("No se cargo las canciones")
@@ -330,7 +330,7 @@
 								'linkYoutube': linkYoutube       
 						}
 				console.log(objeto)
-				fetch('http://localhost:3000/cancion', { 		//Método para crear nueva canción en el servidor
+				fetch('https://proyecto2-201115455.herokuapp.com/cancion', { 		//Método para crear nueva canción en el servidor
 				method: 'POST',
 				body: JSON.stringify(objeto),
 				headers:{
@@ -386,7 +386,7 @@
 			<script>
 					function cargarSolicitudes(){									//Ver canciones solicitadas
 					var tablaSolicitud = document.querySelector('#listaSolicitudes')  //seleccionar el id para cuerpo de la tabla solicitudes
-					fetch('http://localhost:3000/solicitudes')
+					fetch('https://proyecto2-201115455.herokuapp.com/solicitudes')
 					.then(response => response.json())
 					.catch(error => {
 						console.log("No se pudo conectar con el servidor")
@@ -407,7 +407,7 @@
 				
 				function aceptarSolicitud(boton){
 					var idCancion = boton.value
-					var url = "http://localhost:3000/solicitud/" + idCancion
+					var url = "https://proyecto2-201115455.herokuapp.com/solicitud/" + idCancion
 					fetch(url)
 					.then(response => response.json())
 					.catch(error => {
@@ -422,7 +422,7 @@
 				
 				function eliminarSolicitud(boton){       
 					var idCancion = boton.value
-					var url = "http://localhost:3000/solicitud/" + idCancion
+					var url = "https://proyecto2-201115455.herokuapp.com/solicitud/" + idCancion
 					fetch(url, {
 							method: 'DELETE',
 					}).then(res => res.json())
@@ -476,7 +476,7 @@
 				
 				<script>
 						function cancionesReporte(){		
-									fetch('http://localhost:3000/canciones')	
+									fetch('https://proyecto2-201115455.herokuapp.com/canciones')	
 									.then(response => response.json())
 									.catch(error =>{ 
 											console.log("No se pudo conectar al servidor")
@@ -543,7 +543,7 @@
 						}
 						
 						function usuariosReporte(){		
-									fetch('http://localhost:3000/usuariosRegistrados')	
+									fetch('https://proyecto2-201115455.herokuapp.com/usuariosRegistrados')	
 									.then(response => response.json())
 									.catch(error =>{ 
 											console.log("No se pudo conectar al servidor")
@@ -674,7 +674,7 @@
 							if(password==confirmarContra){
 								// Objeto con estructura JSON
 								var objetoUsuario = { 'nombre': nombre, 'apellido': apellido, 'nomUsuario': nomUsuario, 'contra': password, 'tipo': tipo}
-								var url = "http://localhost:3000/usuario"
+								var url = "https://proyecto2-201115455.herokuapp.com/usuario"
 								console.log(objetoUsuario) // ver objeto JSON en la consola del navegador
 		
 								fetch(url, {
